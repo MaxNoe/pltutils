@@ -16,11 +16,14 @@ def errorhist(data,
     Plot a histogram with errorbars
     """
 
+    try:
+        bins = int(bins)
+    except:
+        bin_range = [min(bins), max(bins)]
+        bins = len(bins) - 1
 
-    if bin_range is None:
+    if bin_range is None and type(bins) is int:
         bin_range = [np.min(data), np.max(data)]
-    elif type(bin_range) is not list or len(bin_range) != 2:
-        raise ValueError("bin_range needs to be of the form [min, max]")
 
     if ax is None:
         ax = plt.gca()
