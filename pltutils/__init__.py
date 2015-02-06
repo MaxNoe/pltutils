@@ -57,7 +57,7 @@ def errorhist(data,
     ax.errorbar(
         bin_middles,
         histo*normalisation,
-        fmt='',
+        fmt='none',
         ecolor=color,
         yerr=yerr,
         **err_args
