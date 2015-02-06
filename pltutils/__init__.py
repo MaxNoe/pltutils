@@ -16,6 +16,8 @@ def errorhist(data,
     Plot a histogram with errorbars
     """
 
+    data = np.array(data)
+
     try:
         bins = int(bins)
     except:
@@ -55,8 +57,8 @@ def errorhist(data,
     ax.errorbar(
         bin_middles,
         histo*normalisation,
-        fmt=',',
-        color=color,
+        fmt='',
+        ecolor=color,
         yerr=yerr,
         **err_args
     )
