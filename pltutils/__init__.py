@@ -1,5 +1,7 @@
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot as _plt
+import numpy as _np
+
+__all__ = ["errorhist"]
 
 def errorhist(data,
               bins=10,
@@ -16,7 +18,7 @@ def errorhist(data,
     Plot a histogram with errorbars
     """
 
-    data = np.array(data)
+    data = _np.array(data)
 
     try:
         bins = int(bins)
@@ -25,32 +27,32 @@ def errorhist(data,
         bins = len(bins) - 1
 
     if bin_range is None and type(bins) is int:
-        bin_range = [np.min(data), np.max(data)]
+        bin_range = [_np.min(data), _np.max(data)]
 
     if ax is None:
-        ax = plt.gca()
+        ax = _plt.gca()
 
     if color is None:
         color = next(ax._get_lines.color_cycle)
 
     if normed is True:
-        mask = np.logical_and(data>=bin_range[0], data<=bin_range[1])
-        num_events = np.sum(mask)
+        mask = _np.logical_and(data>=bin_range[0], data<=bin_range[1])
+        num_events = _np.sum(mask)
         normalisation = bins/(num_events*(bin_range[1]-bin_range[0]))
     else:
         normalisation = 1
 
-    histo, bin_edges = np.histogram(data, bins, bin_range)
+    histo, bin_edges = _np.histogram(data, bins, bin_range)
 
     bin_middles = 0.5*(bin_edges[1:] + bin_edges[:-1])
     if yerr is None:
         if weights is None:
-            yerr = np.sqrt(histo)
+            yerr = _np.sqrt(histo)
         else:
-            yerr = np.zeros(bins)
+            yerr = _np.zeros(bins)
             for i, (a, b) in enumerate(zip(bin_edges[:-1], bin_edges[1:])):
-                mask = np.logical_and(data >= a, data < b)
-                yerr[i] = np.sqrt(np.sum(weights[mask]**2))
+                mask = _np.logical_and(data >= a, data < b)
+                yerr[i] = _np.sqrt(_np.sum(weights[mask]**2))
 
     yerr *= normalisation
 
@@ -71,4 +73,5 @@ def errorhist(data,
         **hist_args
     )
 
+    _plt.draw_if_interactive()
     return hist, bin_edges, patches
