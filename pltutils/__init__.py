@@ -1,6 +1,6 @@
-import matplotlib.pyplot as _plt
-import numpy as _np
-
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.axes import Axes
 __all__ = ["errorhist"]
 
 def errorhist(data,
@@ -16,6 +16,35 @@ def errorhist(data,
               ):
     """
     Plot a histogram with errorbars
+
+    Arguments
+    ---------
+
+    data : array-like
+        the data to be filled into the histogram
+    bins : int or array-like
+        number of bins if int, bin edges if array-like
+    bin_range : array-like with shape (2,)
+        upper and lower limit of the histgram. If None,
+        min(data) and max(data) are used
+    yerr : array-like
+        the errors for the bins, if None sqrt(bin_entries) in
+        the case without weights is used, for the case with weights
+        sqrt(sum(weights**2)) is used
+    weights : array-like
+        weights for each event in data
+    normed : boolean
+        if True, the area under the histogram is normed to 1
+    color : matplotlib conform color
+        the color for histogram and errorbars, if None the next color
+        in the colorcycle is used
+    hist_args : dict
+        options for the hist, look into plt.hist documentation
+    err_args : dict
+        options for the errorbars, look into plt.errorbar documentation
+    ax : matplotlib.axes.Axes instance
+        the axes in which the histogram should be plotted, the current active
+        figure is used
     """
 
     data = _np.array(data)
@@ -75,3 +104,13 @@ def errorhist(data,
 
     _plt.draw_if_interactive()
     return hist, bin_edges, patches
+
+def hist_from_entries(self, entries, edges, color=None):
+    if color is None:
+        color = next(self._get_lines.color_cycle)
+
+    xs = np.repeat(edges, 2)
+    ys = np.concatenate([[0], np.repeat(entries, 2), [0]])
+    self.fill(xs, ys, closed=False, fill=False, edgecolor=color)
+
+Axes.hist_from_entries = hist_from_entries
