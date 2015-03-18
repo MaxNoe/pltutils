@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot as _plt
+import numpy as _np
 from matplotlib.axes import Axes
 __all__ = ["errorhist"]
 
@@ -109,8 +109,8 @@ def hist_from_entries(self, entries, edges, color=None):
     if color is None:
         color = next(self._get_lines.color_cycle)
 
-    xs = np.repeat(edges, 2)
-    ys = np.concatenate([[0], np.repeat(entries, 2), [0]])
+    xs = _np.repeat(edges, 2)
+    ys = _np.concatenate([[0], _np.repeat(entries, 2), [0]])
     self.fill(xs, ys, closed=False, fill=False, edgecolor=color)
 
 Axes.hist_from_entries = hist_from_entries
