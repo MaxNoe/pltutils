@@ -12,6 +12,7 @@ def errorhist(data,
               color=None,
               hist_args={"histtype":"step"},
               err_args={},
+              label=None,
               ax=None,
               ):
     """
@@ -99,6 +100,7 @@ def errorhist(data,
         bin_range,
         color=color,
         normed=normed,
+        label=label,
         **hist_args
     )
 
