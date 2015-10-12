@@ -10,6 +10,7 @@ def errorhist(data,
               normed=True,
               weights=None,
               color=None,
+              ecolor=None,
               hist_args={"histtype":"step"},
               err_args={},
               label=None,
@@ -74,7 +75,7 @@ def errorhist(data,
 
     histo, bin_edges = _np.histogram(data, bins, bin_range)
 
-    bin_middles = 0.5*(bin_edges[1:] + bin_edges[:-1])
+    bin_center = 0.5*(bin_edges[1:] + bin_edges[:-1])
     if yerr is None:
         if weights is None:
             yerr = _np.sqrt(histo)
@@ -86,11 +87,14 @@ def errorhist(data,
 
     yerr *= normalisation
 
+    if ecolor is None:
+        ecolor = color
+
     ax.errorbar(
-        bin_middles,
+        bin_center,
         histo*normalisation,
         fmt='none',
-        ecolor=color,
+        ecolor=ecolor,
         yerr=yerr,
         **err_args
     )
