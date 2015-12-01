@@ -3,6 +3,7 @@ import numpy as _np
 from matplotlib.axes import Axes
 __all__ = ["errorhist"]
 
+
 def errorhist(data,
               bins=10,
               bin_range=None,
@@ -11,7 +12,7 @@ def errorhist(data,
               weights=None,
               color=None,
               ecolor=None,
-              hist_args={"histtype":"step"},
+              hist_args={"histtype": "step"},
               err_args={},
               label=None,
               ax=None,
@@ -64,10 +65,13 @@ def errorhist(data,
         ax = _plt.gca()
 
     if color is None:
-        color = next(ax._get_lines.color_cycle)
+        try:
+            color = next(ax._get_lines.prop_cycler)['color']
+        except AttributeError:
+            color = next(ax._get_lines.color_cycle)
 
     if normed is True:
-        mask = _np.logical_and(data>=bin_range[0], data<=bin_range[1])
+        mask = _np.logical_and(data >= bin_range[0], data <= bin_range[1])
         num_events = _np.sum(mask)
         normalisation = bins/(num_events*(bin_range[1]-bin_range[0]))
     else:
@@ -110,6 +114,7 @@ def errorhist(data,
 
     _plt.draw_if_interactive()
     return hist, bin_edges, patches
+
 
 def hist_from_entries(self, entries, edges, color=None):
     if color is None:
